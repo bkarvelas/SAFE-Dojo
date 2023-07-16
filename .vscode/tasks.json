@@ -7,7 +7,7 @@
             "label": "build",
             "command": "dotnet",
             "type": "shell",
-            "options": {"cwd": "src/Server"},
+            "options": { "cwd": "src/Server" },
             "args": [
                 "build",
                 // Ask dotnet build to generate full paths for file names.
@@ -20,6 +20,21 @@
                 "reveal": "silent"
             },
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "runFableWatch",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "dotnet fable watch -o output -s --run npm run start"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/Client"
+            }
         }
     ]
 }

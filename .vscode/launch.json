@@ -22,12 +22,30 @@
             "sourceMapPathOverrides": {
                 "${webRoot}/*": "${webRoot}/*"
             }
+        },
+        {
+            "type": "chrome",
+            "name": "http://localhost:8080",
+            "request": "launch",
+            "url": "http://localhost:8080"
+        },
+        {
+            "type": "PowerShell",
+            "name": "dotnet fable watch",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/src/Client",
+            "preLaunchTask": "runFableWatch"
         }
     ],
     "compounds": [
         {
             "name": "Full Stack",
-            "configurations": ["Server", "Client"]
+            "type": "compound",
+            "configurations": [
+                "Server",
+                "dotnet fable watch",
+                "http://localhost:8080"
+            ]
         }
     ]
 }

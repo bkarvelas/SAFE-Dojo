@@ -79,13 +79,20 @@ let update msg model =
         Cmd.none
 
     | PostcodeChanged p ->
-        { model with
-            Postcode = p
-            (* Task 2.2 Validation. Use the Validation.isValidPostcode function to implement client-side form validation.
-               Note that the validation is the same shared code that runs on the server! *)
-            ValidationError = None
-        },
-        Cmd.none
+        (* --- Done! --- Task 2.2 Validation. Use the Validation.isValidPostcode function to implement client-side form validation.
+           Note that the validation is the same shared code that runs on the server! *)
+        if not (Validation.isValidPostcode p) then
+            { model with
+                Postcode = p
+                ValidationError = Some "Invalid postcode"
+            },
+            Cmd.none
+        else
+            { model with
+                Postcode = p
+                ValidationError = None
+            },
+            Cmd.none
 
     | ErrorMsg e ->
         let errorAlert =
@@ -145,13 +152,14 @@ module ViewParts =
     let mapWidget (lr: LocationResponse) =
         widget "Map" [
             PigeonMaps.map [
-                (* Task 3.2 MAP: Set the center of the map using map.center, supply the lat/long value as input. *)
-
-                (* Task 3.3 MAP: Update the Zoom to 15. *)
-                map.zoom 12
+                (* --- Done --- Task 3.2 MAP: Set the center of the map using map.center, supply the lat/long value as input. *)
+                map.center (lr.Location.LatLong.Latitude, lr.Location.LatLong.Longitude)
+                (* --- Done --- Task 3.3 MAP: Update the Zoom to 15. *)
+                map.zoom 15
                 map.height 500
                 map.markers [
-                (* Task 3.4 MAP: Create a marker for the map. Use the makeMarker function above. *)
+                    (* --- Done --- Task 3.4 MAP: Create a marker for the map. Use the makeMarker function above. *)
+                    makeMarker (lr.Location.LatLong.Latitude, lr.Location.LatLong.Longitude)
                 ]
             ]
         ]
@@ -337,10 +345,11 @@ let view (model: Model) dispatch =
                                            from the report value, and include it here as part of the list *)
                                     ]
                                 ]
-                            (* Task 3.1 MAP: Call the mapWidget function here, which creates a
+                            (* --- Done --- Task 3.1 MAP: Call the mapWidget function here, which creates a
                                    widget to display a map using the React ReCharts component. The function
                                    takes in a LocationResponse value as input and returns a ReactElement. *)
                             ]
+                            (mapWidget report.Location) |> prop.children
                         ]
                         Bulma.column [ column.is7; prop.children [ crimeWidget report.Crimes ] ]
                     ]
