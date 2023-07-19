@@ -192,8 +192,8 @@ module ViewParts =
                     prop.children [
                         Html.tbody [
                             Html.tr [
-                                Html.th "Temp"
-                                (* Task 4.7 WEATHER: Get the temperature from the given weather report
+                                Html.th (sprintf "%.2f" weatherReport.Temperature)
+                                (* --- Done --- Task 4.7 WEATHER: Get the temperature from the given weather report
                                    and display it here instead of an empty string.
                                    Hint: Use sprintf with "%.2f" to round the temperature to 2 decimal points
                                    (look at the locationWidget for an example) *)
